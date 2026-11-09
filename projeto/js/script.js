@@ -53,56 +53,50 @@ function escapeHTML(value) {
     return String(value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[char]));
 }
 
-function showPage(page) {
-    document.querySelectorAll(".page-section").forEach(section => section.classList.remove("active"));
-    document.querySelectorAll(".side-nav .nav-link").forEach(link => link.classList.toggle("active", link.dataset.page === page));
-    const target = document.getElementById("page-" + page);
-    if (target) target.classList.add("active");
-    const names = {dashboard:"Dashboard",gastos:"Gastos",entradas:"Entradas",investimentos:"Investimentos",guardado:"Dinheiro Guardado"};
-    document.getElementById("pageHeading").textContent = names[page] || "Minhas Finanças";
-    document.getElementById("sidebar").classList.remove("open");
-    if (page === "dashboard") setTimeout(renderCharts, 50);
-}
-document.querySelectorAll("[data-page]").forEach(link => link.addEventListener("click", event => {
-    event.preventDefault();
-    showPage(link.dataset.page);
-}));
 
 function renderSummary() {
     const income = total(data.incomes);
     const expense = total(data.expenses);
-    document.getElementById("balanceTotal").textContent = money(income - expense);
-    document.getElementById("incomeTotal").textContent = money(income);
-    document.getElementById("expenseTotal").textContent = money(expense);
-    document.getElementById("investedTotal").textContent = money(total(data.investments,"applied"));
-    document.getElementById("savedTotal").textContent = money(total(data.goals,"saved"));
-    document.getElementById("expenseSubtitle").textContent = "Total: " + money(expense);
-    document.getElementById("incomeSubtitle").textContent = "Total: " + money(income);
-    document.getElementById("investmentSubtitle").textContent = "Valor aplicado: " + money(total(data.investments,"applied"));
-    document.getElementById("goalSubtitle").textContent = "Total guardado: " + money(total(data.goals,"saved"));
+    if (document.getElementById("balanceTotal")) document.getElementById("balanceTotal").textContent = money(income - expense);
+    if (document.getElementById("incomeTotal")) document.getElementById("incomeTotal").textContent = money(income);
+    if (document.getElementById("expenseTotal")) document.getElementById("expenseTotal").textContent = money(expense);
+    if (document.getElementById("investedTotal")) document.getElementById("investedTotal").textContent = money(total(data.investments,"applied"));
+    if (document.getElementById("savedTotal")) document.getElementById("savedTotal").textContent = money(total(data.goals,"saved"));
+    if (document.getElementById("expenseSubtitle")) document.getElementById("expenseSubtitle").textContent = "Total: " + money(expense);
+    if (document.getElementById("incomeSubtitle")) document.getElementById("incomeSubtitle").textContent = "Total: " + money(income);
+    if (document.getElementById("investmentSubtitle")) document.getElementById("investmentSubtitle").textContent = "Valor aplicado: " + money(total(data.investments,"applied"));
+    if (document.getElementById("goalSubtitle")) document.getElementById("goalSubtitle").textContent = "Total guardado: " + money(total(data.goals,"saved"));
 }
 function renderExpenses() {
-    const query = (document.getElementById("expenseSearch").value || "").toLowerCase();
-    const category = document.getElementById("expenseCategoryFilter").value;
+    const target = document.getElementById("expenseList");
+    if (!target) return;
+    const query = (document.getElementById("expenseSearch")?.value || "").toLowerCase();
+    const category = document.getElementById("expenseCategoryFilter")?.value || "";
     const list = data.expenses.filter(item => item.name.toLowerCase().includes(query) && (!category || item.category === category));
-    document.getElementById("expenseList").innerHTML = list.length ? list.map(item => `
+    target.innerHTML = list.length ? list.map(item => `
         <div class="record-row"><div class="record-main"><p class="record-title">${escapeHTML(item.name)}</p><p class="record-meta">${escapeHTML(item.category)} • ${dateLabel(item.date)} • ${escapeHTML(item.payment)}</p></div><strong class="record-value negative">- ${money(item.value)}</strong><div class="row-actions"><button aria-label="Excluir despesa" onclick="removeRecord('expenses',${item.id})"><i class="bi bi-trash"></i></button></div></div>`).join("") : '<div class="empty-state">Nenhuma despesa encontrada.</div>';
 }
 function renderIncomes() {
-    const query = (document.getElementById("incomeSearch").value || "").toLowerCase();
+    const target = document.getElementById("incomeList");
+    if (!target) return;
+    const query = (document.getElementById("incomeSearch")?.value || "").toLowerCase();
     const list = data.incomes.filter(item => item.name.toLowerCase().includes(query));
-    document.getElementById("incomeList").innerHTML = list.length ? list.map(item => `
+    target.innerHTML = list.length ? list.map(item => `
         <div class="record-row"><div class="record-main"><p class="record-title">${escapeHTML(item.name)}</p><p class="record-meta">${dateLabel(item.date)} • ${escapeHTML(item.payment)}</p></div><strong class="record-value positive">+ ${money(item.value)}</strong><div class="row-actions"><button aria-label="Excluir entrada" onclick="removeRecord('incomes',${item.id})"><i class="bi bi-trash"></i></button></div></div>`).join("") : '<div class="empty-state">Nenhuma entrada encontrada.</div>';
 }
 function renderInvestments() {
-    document.getElementById("investmentList").innerHTML = data.investments.length ? data.investments.map(item => {
+    const target = document.getElementById("investmentList");
+    if (!target) return;
+    target.innerHTML = data.investments.length ? data.investments.map(item => {
         const result = Number(item.current) - Number(item.applied);
         const percent = item.applied ? (result / item.applied * 100) : 0;
         return `<article class="investment-card"><div class="card-topline"><span>${escapeHTML(item.type)}</span><button class="row-actions" aria-label="Excluir investimento" onclick="removeRecord('investments',${item.id})"><i class="bi bi-trash"></i></button></div><h3>${escapeHTML(item.name)}</h3><div class="card-amount">${money(item.current)}</div><div class="card-sub">Investido: ${money(item.applied)}</div><div class="card-sub ${result >= 0 ? "positive" : "negative"}">Resultado: ${result >= 0 ? "+" : ""}${money(result)} (${percent.toFixed(1)}%)</div><div class="card-sub">${dateLabel(item.date)}</div></article>`;
     }).join("") : '<div class="empty-state">Nenhum investimento cadastrado.</div>';
 }
 function renderGoals() {
-    document.getElementById("goalList").innerHTML = data.goals.length ? data.goals.map(item => {
+    const target = document.getElementById("goalList");
+    if (!target) return;
+    target.innerHTML = data.goals.length ? data.goals.map(item => {
         const percent = item.target ? Math.min(100, Number(item.saved) / Number(item.target) * 100) : 0;
         return `<article class="goal-card"><div class="card-topline"><span>${escapeHTML(item.icon || "🎯")} Meta financeira</span><button class="row-actions" aria-label="Excluir meta" onclick="removeRecord('goals',${item.id})"><i class="bi bi-trash"></i></button></div><h3>${escapeHTML(item.name)}</h3><div class="card-amount">${money(item.saved)}</div><div class="card-sub">Meta: ${money(item.target)}</div><div class="progress"><div class="progress-bar" style="width:${percent}%"></div></div><div class="goal-percent">${percent.toFixed(0)}% concluído</div></article>`;
     }).join("") : '<div class="empty-state">Nenhuma meta cadastrada.</div>';
@@ -112,11 +106,13 @@ function renderRecent() {
         ...data.expenses.map(item => ({...item,kind:"expense"})),
         ...data.incomes.map(item => ({...item,kind:"income"}))
     ].sort((a,b) => b.date.localeCompare(a.date)).slice(0,5);
-    document.getElementById("recentTransactions").innerHTML = all.length ? all.map(item => `
+    const target = document.getElementById("recentTransactions");
+    if (!target) return;
+    target.innerHTML = all.length ? all.map(item => `
         <div class="transaction-row"><div class="record-main"><p class="record-title">${escapeHTML(item.name)}</p><p class="record-meta">${dateLabel(item.date)}</p></div><strong class="record-value ${item.kind === "income" ? "positive" : "negative"}">${item.kind === "income" ? "+" : "-"} ${money(item.value)}</strong></div>`).join("") : '<div class="empty-state">Ainda não há transações.</div>';
 }
 function renderCharts() {
-    if (typeof Chart === "undefined") return;
+    if (typeof Chart === "undefined" || !document.getElementById("monthlyChart") || !document.getElementById("categoryChart")) return;
     const monthly = {};
     [...data.incomes.map(x => ({...x,kind:"income"})),...data.expenses.map(x => ({...x,kind:"expense"}))].forEach(item => {
         const key = item.date.slice(0,7);
@@ -148,7 +144,9 @@ function removeRecord(collection,id) {
 window.removeRecord = removeRecord;
 
 function connectForm(formId, collection, buildItem, modalId) {
-    document.getElementById(formId).addEventListener("submit", event => {
+    const form = document.getElementById(formId);
+    if (!form) return;
+    form.addEventListener("submit", event => {
         event.preventDefault();
         data[collection].unshift(buildItem());
         saveData(); renderAll();
@@ -178,16 +176,32 @@ connectForm("goalForm","goals",() => ({
     icon:"🎯"
 }),"goalModal");
 
-document.getElementById("expenseSearch").addEventListener("input",renderExpenses);
-document.getElementById("expenseCategoryFilter").addEventListener("change",renderExpenses);
-document.getElementById("incomeSearch").addEventListener("input",renderIncomes);
-document.getElementById("menuToggle").addEventListener("click",() => document.getElementById("sidebar").classList.toggle("open"));
-document.getElementById("clearData").addEventListener("click",event => {
+const expenseSearch = document.getElementById("expenseSearch");
+if (expenseSearch) expenseSearch.addEventListener("input", renderExpenses);
+const expenseCategoryFilter = document.getElementById("expenseCategoryFilter");
+if (expenseCategoryFilter) expenseCategoryFilter.addEventListener("change", renderExpenses);
+const incomeSearch = document.getElementById("incomeSearch");
+if (incomeSearch) incomeSearch.addEventListener("input", renderIncomes);
+
+const menuToggle = document.getElementById("menuToggle");
+if (menuToggle) menuToggle.addEventListener("click", () => document.getElementById("sidebar").classList.toggle("open"));
+
+const clearData = document.getElementById("clearData");
+if (clearData) clearData.addEventListener("click", event => {
     event.preventDefault();
     if (confirm("Isso apaga os registros salvos neste navegador e restaura os exemplos. Continuar?")) {
-        localStorage.removeItem("minhasFinancas"); data = JSON.parse(JSON.stringify(initialData)); renderAll();
+        localStorage.removeItem("minhasFinancas");
+        data = JSON.parse(JSON.stringify(initialData));
+        renderAll();
     }
 });
-document.getElementById("todayLabel").textContent = new Date().toLocaleDateString("pt-BR",{day:"2-digit",month:"short",year:"numeric"});
-["expenseDate","incomeDate","investmentDate"].forEach(id => document.getElementById(id).value = new Date().toISOString().slice(0,10));
+
+const todayLabel = document.getElementById("todayLabel");
+if (todayLabel) todayLabel.textContent = new Date().toLocaleDateString("pt-BR", {day:"2-digit",month:"short",year:"numeric"});
+
+["expenseDate","incomeDate","investmentDate"].forEach(id => {
+    const field = document.getElementById(id);
+    if (field) field.value = new Date().toISOString().slice(0,10);
+});
+
 renderAll();
