@@ -245,3 +245,76 @@ renderAll();
 4. Para cada tag, classe, ID, propriedade ou função que encontrar, tente explicar em voz alta para que serve.
 5. Faça uma pequena alteração de teste, veja o resultado no navegador e depois decida se deseja mantê-la.
 
+## Explicação detalhada das partes do JavaScript
+
+### Bloco 1 — dados iniciais (`initialData`)
+O objeto reúne quatro arrays: despesas, entradas, investimentos e metas. Um array é uma lista de itens; cada item é um objeto com propriedades como identificador, nome, valor e data. Esses registros iniciais servem como demonstração quando o navegador ainda não tem dados salvos.
+
+### Bloco 2 — estado da aplicação
+A variável `data` guarda os dados que estão sendo utilizados. Ela é declarada com `let` porque pode receber um novo objeto quando os dados são carregados ou restaurados. Variáveis que começam como `null` reservam espaço para as instâncias dos gráficos do Chart.js.
+
+### Bloco 3 — carregamento e salvamento (`loadData` e `saveData`)
+`localStorage.getItem()` tenta recuperar o conteúdo associado a uma chave. Como o localStorage guarda texto, `JSON.parse()` transforma o texto JSON novamente em objeto JavaScript. Quando não existe dado salvo, o script prepara os dados de demonstração. `JSON.stringify()` converte o objeto em texto e `localStorage.setItem()` grava esse texto no navegador. Os dados ficam naquele navegador e dispositivo; não são enviados a um servidor.
+
+### Bloco 4 — funções auxiliares de formatação
+A função de moeda transforma números em uma apresentação brasileira, com símbolo R$ e separadores adequados. A função de total percorre uma lista e soma uma propriedade específica. A função de data separa ano, mês e dia para apresentar a data no formato utilizado na interface. A função de escape substitui caracteres especiais por entidades HTML antes de inserir textos digitados pelo usuário no conteúdo da página.
+
+### Bloco 5 — atualização dos indicadores (`renderSummary`)
+A função soma entradas, despesas, investimentos e valores guardados. Em seguida localiza os elementos pelos IDs definidos no HTML e atualiza o texto. As verificações de existência são importantes porque o mesmo arquivo JavaScript é carregado em páginas diferentes: um cartão que existe no Dashboard pode não existir na tela de Gastos.
+
+### Bloco 6 — lista de despesas (`renderExpenses`)
+Primeiro a função verifica se o contêiner da lista existe. Depois lê o texto de pesquisa e a categoria selecionada. A lista é filtrada para manter apenas os registros compatíveis. Os resultados são transformados em marcação HTML e inseridos no contêiner. Os valores passam pela função de moeda; as datas são formatadas; textos são escapados; e cada botão de exclusão recebe o identificador do registro correspondente.
+
+### Bloco 7 — lista de entradas (`renderIncomes`)
+A lógica é semelhante à lista de despesas, mas consulta o array de entradas. A pesquisa compara o texto informado com a descrição/nome dos registros. A renderização monta as linhas e identifica visualmente valores recebidos como positivos. Se não houver correspondências, é apresentada uma mensagem apropriada.
+
+### Bloco 8 — cartões de investimentos (`renderInvestments`)
+Para cada investimento, o script compara o valor atual com o valor aplicado. A diferença é o resultado financeiro. O percentual é calculado dividindo a diferença pelo valor aplicado e multiplicando por 100. É necessário tratar o caso de valor aplicado igual a zero para evitar divisão por zero. O resultado é usado para escolher a classe visual positiva ou negativa.
+
+### Bloco 9 — cartões de metas (`renderGoals`)
+Para cada meta, o percentual é calculado por valor guardado dividido pelo valor desejado, multiplicado por 100. A função limita o resultado a 100% para que a barra não ultrapasse seu espaço. O cartão mostra nome, valores e progresso. A largura da barra é atualizada com o percentual calculado.
+
+### Bloco 10 — transações recentes (`renderRecent`)
+A função combina registros de despesas e entradas em uma lista temporária. Cada registro recebe uma identificação de tipo para distinguir saída de dinheiro e recebimento. A lista é ordenada pela data e limitada aos itens mais recentes antes de ser exibida no Dashboard.
+
+### Bloco 11 — gráficos (`renderCharts`)
+Chart.js precisa encontrar os elementos canvas no HTML. O script verifica se a biblioteca e os canvas estão disponíveis. Os dados são agrupados para formar o gráfico mensal e o gráfico por categoria. Se um gráfico já existir, sua instância anterior é destruída antes de criar outra, evitando sobreposição de desenhos.
+
+### Bloco 12 — atualização geral (`renderAll`)
+Essa função central chama as funções responsáveis por atualizar os indicadores, listas, cartões e gráficos. Após cadastrar ou excluir um registro, chamar `renderAll()` mantém a interface sincronizada com os dados que estão na variável `data`.
+
+### Bloco 13 — exclusão de registros (`removeRecord`)
+A função recebe o nome do array e o identificador do item. Uma confirmação é exibida antes de apagar. O método `filter()` cria uma nova lista mantendo os registros cujo ID não corresponde ao item escolhido. Depois o script salva e atualiza a interface.
+
+### Bloco 14 — conexão dos formulários (`connectForm`)
+A função recebe informações para trabalhar com diferentes formulários sem repetir toda a lógica. Ela verifica se o formulário existe; registra um ouvinte para o evento `submit`; usa `preventDefault()` para evitar o recarregamento tradicional; lê os campos; cria o objeto; adiciona o item ao array; salva; atualiza a interface; fecha o modal e limpa o formulário. Os IDs dos campos precisam coincidir com os IDs presentes nos HTMLs.
+
+### Bloco 15 — configuração dos quatro cadastros
+As chamadas da função de conexão informam como construir cada tipo de registro. Despesa, entrada, investimento e meta possuem campos diferentes, por isso cada cadastro monta seu próprio objeto. `Number()` converte valores digitados para número; `trim()` remove espaços no começo e no fim de textos; um identificador é criado para que cada registro possa ser localizado e excluído.
+
+### Bloco 16 — pesquisa, filtros e eventos
+O JavaScript procura os campos de pesquisa e filtro pelo ID. Quando o elemento existe, registra um ouvinte de evento. `input` ocorre durante a digitação; `change` ocorre quando o valor de um seletor muda; `click` ocorre ao clicar em um botão. Cada evento chama a função responsável por atualizar a parte da tela afetada.
+
+### Bloco 17 — menu lateral responsivo
+O botão de menu recebe um ouvinte de clique. `classList.toggle("open")` alterna a classe `open`: se ela não existe, adiciona; se existe, remove. O CSS utiliza essa classe para mostrar ou esconder a sidebar no celular.
+
+### Bloco 18 — restauração dos dados
+O controle de limpar dados pede confirmação. Se o usuário confirmar, a chave do localStorage é removida e os dados iniciais são carregados novamente. Isso afeta os dados armazenados naquele navegador, não altera dados em servidor.
+
+### Bloco 19 — data atual e inicialização
+O script preenche o elemento de data com a data atual. Também configura campos de data para iniciarem com o dia atual quando aplicável. No final, a chamada de renderização inicial faz os dados aparecerem assim que a página termina de carregar.
+
+### Conceitos importantes usados no arquivo
+- **Variável:** espaço nomeado que guarda um valor.
+- **Array:** lista de registros.
+- **Objeto:** conjunto de propriedades de um registro.
+- **Função:** bloco reutilizável de instruções.
+- **Parâmetro:** informação recebida pela função.
+- **Evento:** ação que dispara uma função, como clique ou envio.
+- **DOM:** representação dos elementos HTML que o JavaScript pode consultar e alterar.
+- **JSON:** formato de texto usado para armazenar e recuperar objetos.
+- **localStorage:** armazenamento no navegador.
+- **filter:** cria uma lista apenas com os itens que passam por uma condição.
+- **map:** transforma cada item de uma lista.
+- **reduce:** percorre uma lista acumulando um resultado, como uma soma.
+
