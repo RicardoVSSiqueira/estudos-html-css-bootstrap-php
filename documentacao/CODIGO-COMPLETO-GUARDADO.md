@@ -130,3 +130,32 @@ O bloco abaixo reproduz o conteúdo completo do arquivo que está no repositóri
 4. Para cada tag, classe, ID, propriedade ou função que encontrar, tente explicar em voz alta para que serve.
 5. Faça uma pequena alteração de teste, veja o resultado no navegador e depois decida se deseja mantê-la.
 
+## Explicação detalhada de cada bloco do HTML
+
+### Bloco 1 — configurações do documento
+DOCTYPE ativa HTML5. `lang="pt-br"` declara o idioma. UTF-8 permite acentos. Viewport adapta o conteúdo ao celular. O title identifica a página Dinheiro Guardado.
+
+### Bloco 2 — bibliotecas e CSS
+Bootstrap disponibiliza classes de layout, botões e formulários. Bootstrap Icons fornece os ícones. `../css/style.css` carrega os estilos próprios. O prefixo `../` volta uma pasta, pois este documento está em `projeto/paginas`.
+
+### Bloco 3 — menu lateral
+O menu contém links para todas as telas. O link Guardado recebe a classe `active` para destaque e `aria-current="page"` para informar a página atual. Os IDs do menu e do botão mobile são utilizados pelo JavaScript.
+
+### Bloco 4 — cabeçalho e barra de ações
+O cabeçalho identifica a página e contém o botão que abre a navegação em telas pequenas. O elemento de data recebe a data atual por JavaScript. A barra de ações apresenta o botão de nova meta, que aponta para o modal `goalModal`.
+
+### Bloco 5 — total guardado
+O elemento `goalSubtitle` é o espaço reservado para mostrar o total já guardado nas metas. O JavaScript soma os valores guardados e atualiza esse texto.
+
+### Bloco 6 — cartões de metas
+`goalList` é o contêiner onde os cartões serão criados. Para cada meta, o script compara o valor guardado com o valor desejado. O percentual é calculado dividindo o valor guardado pelo alvo e multiplicando por 100. A barra visual recebe essa porcentagem como largura, limitada a 100% para não ultrapassar o cartão.
+
+### Bloco 7 — modal e formulário de meta
+`goalModal` identifica a janela e `goalForm` identifica o formulário. Os campos recebem nome da meta, valor desejado, valor já guardado e prazo. Labels associados aos inputs facilitam o uso. `required` exige campos essenciais; `type="number"` define entrada numérica; `min` impede valores abaixo do mínimo; `step` define os intervalos; `type="date"` permite selecionar prazo.
+
+### Bloco 8 — dependências e fluxo de dados
+As bibliotecas Bootstrap são carregadas antes do script próprio. Ao enviar o formulário, o JavaScript lê os campos, cria um objeto de meta, adiciona-o ao array correspondente, salva os dados no localStorage e atualiza a lista. Isso é armazenamento local do navegador, não persistência em servidor.
+
+### Exemplo de progresso
+Uma meta de R$ 2.000 com R$ 500 guardados está 25% concluída: 500 dividido por 2.000, multiplicado por 100. O cartão mostra os valores e uma barra preenchida em um quarto do espaço.
+
