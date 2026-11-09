@@ -1,49 +1,68 @@
-# Aula 02 — Estilizando o Minhas Finanças com CSS
+# CSS — explicação passo a passo do projeto Minhas Finanças
 
-Arquivo utilizado: **`projeto/css/style.css`**. O CSS será estudado depois de compreender a estrutura HTML.
+O arquivo `projeto/css/style.css` concentra o visual das cinco páginas. Todas as páginas usam esse mesmo arquivo, por isso uma alteração nele pode aparecer em várias telas.
 
-## 1. Variáveis de cores
+## 1. Como uma regra CSS funciona?
+
+Exemplo:
+
+```css
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+}
+```
+
+- `body` é o seletor: escolhe todos os elementos `<body>`.
+- As chaves agrupam as declarações.
+- `margin: 0` remove a margem padrão do navegador.
+- `background` define o fundo.
+- `color` define a cor do texto.
+- `font-family` define a família tipográfica. O navegador tenta Arial; se não estiver disponível, tenta Helvetica e depois uma fonte sem serifa genérica.
+- Cada declaração termina com ponto e vírgula.
+
+## 2. Variáveis de cores com :root
+
+No início do arquivo:
 
 ```css
 :root {
     --background: #050914;
     --sidebar: #080e1b;
     --panel: #0c1423;
+    --panel-soft: #111c2d;
     --border: #1c2a3d;
     --text: #f4f7fb;
     --muted: #8290a5;
     --green: #08b981;
     --red: #f04452;
+    --blue: #3478f6;
+    --purple: #a13cf0;
 }
 ```
 
-- `:root` representa o elemento raiz do documento.
-- Cada nome iniciado por `--` cria uma variável CSS.
+- `:root` seleciona o elemento raiz do documento.
+- Variáveis CSS começam com dois hífens, como `--background`.
 - Os valores são cores em hexadecimal.
-- Usamos `var(--background)` para reutilizar uma variável. Se mudarmos a cor aqui, todos os componentes que a utilizam acompanham a mudança.
+- Para usar uma variável, escrevemos `var(--background)`.
+- A vantagem é mudar a cor em um único lugar e atualizar todos os componentes que usam aquela variável.
 
-## 2. Ajustes gerais
+## 3. Ajustes gerais
 
 ```css
 * { box-sizing: border-box; }
-body {
-    margin: 0;
-    background: var(--background);
-    color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
-}
+body { margin: 0; ... }
+a { color: inherit; }
 ```
 
-- `*` seleciona todos os elementos.
-- `box-sizing: border-box` faz largura e altura incluírem padding e borda.
-- `margin: 0` remove a margem padrão do navegador.
-- `background` define o fundo.
-- `color` define a cor padrão do texto.
-- `font-family` escolhe a família de fontes.
-- `font-size` define o tamanho inicial da fonte.
+- `*` é o seletor universal: seleciona todos os elementos.
+- `box-sizing: border-box` faz largura e altura incluírem o preenchimento e a borda, facilitando calcular dimensões.
+- `a` seleciona todos os links.
+- `color: inherit` faz o link herdar a cor do elemento pai.
 
-## 3. Sidebar fixa
+## 4. Estrutura principal e menu lateral
 
 ```css
 .sidebar {
@@ -54,29 +73,62 @@ body {
     left: 0;
     z-index: 1000;
     padding: 22px 14px;
-    background: var(--sidebar);
+    display: flex;
+    flex-direction: column;
 }
-```
-
-- `width`: largura do menu.
-- `position: fixed`: mantém o menu preso à tela durante a rolagem.
-- `top`, `bottom` e `left`: prendem o menu às bordas superior, inferior e esquerda.
-- `z-index`: controla a sobreposição; um número maior fica na frente de elementos com valor menor.
-- `padding`: espaço interno.
-- `background`: cor de fundo da sidebar.
-
-## 4. Área principal ao lado do menu
-
-```css
 .main-area {
     margin-left: 238px;
     padding: 28px 30px 40px;
 }
 ```
 
-A margem esquerda tem a mesma largura da sidebar. Assim o conteúdo não fica escondido atrás do menu. O padding cria respiro interno: 28 px em cima, 30 px nas laterais e 40 px embaixo.
+- `width: 238px`: define a largura do menu.
+- `position: fixed`: mantém o menu fixo na tela durante a rolagem.
+- `top`, `bottom` e `left`: posicionam o menu nos limites da janela.
+- `z-index`: controla a sobreposição; um valor alto mantém o menu acima de outros elementos.
+- `padding`: cria espaço interno.
+- `display: flex`: ativa o Flexbox.
+- `flex-direction: column`: organiza os filhos verticalmente.
+- `margin-left: 238px`: desloca o conteúdo principal para não ficar atrás do menu.
 
-## 5. Cartões com CSS Grid
+## 5. Menu e estados visuais
+
+```css
+.side-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.nav-link:hover, .nav-link.active {
+    color: #fff;
+    background: #102a30;
+}
+```
+
+- `gap` define o espaço entre os links.
+- `:hover` aplica o estilo quando o ponteiro está sobre o link.
+- `.active` é uma classe que o HTML usa para identificar a página selecionada.
+- A vírgula permite aplicar a mesma regra a mais de um seletor.
+
+## 6. Cabeçalho e alinhamento
+
+```css
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    gap: 15px;
+}
+```
+
+- `display: flex`: coloca os elementos em uma linha.
+- `align-items: center`: alinha os itens pelo centro vertical.
+- `justify-content: space-between`: distribui o espaço entre os itens.
+- `margin-bottom`: cria distância abaixo do cabeçalho.
+- `gap`: cria espaço entre os itens.
+
+## 7. Grid dos cartões e gráficos
 
 ```css
 .summary-grid {
@@ -84,62 +136,154 @@ A margem esquerda tem a mesma largura da sidebar. Assim o conteúdo não fica es
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 13px;
 }
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
 ```
 
-- `display: grid` ativa o CSS Grid.
-- `repeat(5, ...)` cria cinco colunas.
-- `1fr` divide o espaço disponível em frações iguais.
-- `minmax(0, 1fr)` permite que cada coluna encolha sem estourar o contêiner.
-- `gap` define o espaço entre os cartões.
+- `display: grid`: ativa o CSS Grid.
+- `grid-template-columns`: define as colunas.
+- `repeat(5, ...)`: repete a configuração cinco vezes.
+- `minmax(0, 1fr)`: permite que cada coluna divida o espaço sem ultrapassar o tamanho disponível.
+- `1fr`: representa uma fração do espaço livre.
+- `gap`: espaço entre cartões.
 
-## 6. Cartões e painéis
+## 8. Cartões, painéis e textos
+
+O arquivo aplica fundos, bordas e arredondamento a componentes como:
 
 ```css
-.panel, .summary-card {
+.summary-card, .panel, .investment-card, .goal-card {
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 9px;
 }
 ```
 
-A vírgula permite aplicar as mesmas regras aos dois seletores. O fundo, a borda e o arredondamento criam a aparência de cartões escuros.
+O mesmo estilo é compartilhado por quatro classes. Isso evita repetir as mesmas propriedades.
 
-## 7. Cores de situação
+- `background`: cor de fundo.
+- `border`: espessura, tipo e cor da borda.
+- `border-radius`: arredonda os cantos.
+
+Outras propriedades importantes usadas no arquivo:
+
+- `font-size`: tamanho do texto.
+- `font-weight`: peso da fonte.
+- `white-space: nowrap`: impede a quebra de linha.
+- `min-width: 0`: permite que um item flex/grid encolha corretamente.
+- `text-align`: alinhamento do texto.
+- `transition`: suaviza uma mudança de estilo.
+- `transform: translateX(...)`: desloca um elemento no eixo horizontal.
+
+## 9. Listas e valores positivos/negativos
 
 ```css
-.positive { color: var(--green); }
+.transaction-row, .record-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 3px;
+    border-bottom: 1px solid var(--border);
+}
 .negative { color: var(--red); }
+.positive { color: var(--green); }
 ```
 
-O JavaScript aplica essas classes aos valores. Entradas aparecem em verde e gastos em vermelho.
+Cada registro usa Flexbox para separar descrição e valor. A classe `.negative` destaca gastos em vermelho, enquanto `.positive` destaca entradas em verde.
 
-## 8. Responsividade
+## 10. Formulários e botões
+
+O CSS personaliza as classes do Bootstrap:
+
+- `.btn`: aparência comum dos botões.
+- `.btn-danger`: botão vermelho de despesa.
+- `.btn-success`: botão verde de entrada.
+- `.btn-primary`: botão azul de investimento.
+- `.btn-purple`: classe própria para o botão de metas.
+- `.form-control`: campos e seletores do Bootstrap.
+- `:focus`: aparência do campo quando selecionado.
+- `::placeholder`: aparência do texto de orientação.
+
+Exemplo:
 
 ```css
-@media (max-width: 767px) {
-    .main-area {
-        margin-left: 0;
-        padding: 18px 14px 30px;
-    }
-    .summary-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.form-control:focus {
+    background: #1a2638;
+    color: white;
+    border-color: #3979ee;
+    box-shadow: 0 0 0 .15rem rgba(57,121,238,.15);
 }
 ```
 
-- `@media` aplica regras apenas quando a condição é verdadeira.
-- `max-width: 767px` direciona a regra a telas estreitas.
-- A margem do conteúdo vira zero porque a sidebar sai da posição visível.
-- Os cartões passam de cinco colunas para duas.
+## 11. Cartões de investimento e metas
 
-O restante do arquivo também adapta gráficos, filtros, cartões de investimento e metas. Leia cada bloco `@media` e observe o que muda no celular.
+```css
+.investment-grid, .goal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+.progress {
+    height: 6px;
+    background: #202c3d;
+}
+.progress-bar {
+    background: var(--purple);
+}
+```
 
-## Exercícios
+As grades organizam os cartões em três colunas em telas maiores. A classe `.progress` é o fundo da barra e `.progress-bar` representa a parte preenchida. O JavaScript define a largura da barra de acordo com o percentual da meta.
 
-1. Mude temporariamente `--background` para outra cor.
-2. Aumente a largura da sidebar e ajuste a margem de `.main-area` para o mesmo valor.
-3. Altere o `gap` dos cartões.
-4. Reduza a janela do navegador e observe a regra de responsividade.
-5. Explique a diferença entre `margin` e `padding`.
+## 12. Responsividade com media queries
 
-**Critério para avançar:** conseguir explicar seletores, propriedades, variáveis, Grid, Flexbox, posicionamento e media queries.
+O projeto possui dois pontos principais de adaptação:
+
+```css
+@media (max-width: 1100px) {
+    .summary-grid { grid-template-columns: repeat(3, 1fr); }
+    .investment-grid, .goal-grid { grid-template-columns: repeat(2, 1fr); }
+}
+```
+
+Quando a tela tem até 1100 pixels, os cartões passam a usar menos colunas.
+
+```css
+@media (max-width: 767px) {
+    .sidebar { transform: translateX(-100%); }
+    .main-area { margin-left: 0; }
+    .mobile-menu { display: inline-block; }
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+```
+
+Em telas pequenas:
+- o menu lateral começa fora da tela;
+- a área principal ocupa a largura disponível;
+- o botão de menu aparece;
+- os cartões passam para duas colunas;
+- os gráficos ficam um abaixo do outro;
+- grades de investimentos e metas passam a uma coluna.
+
+A classe `.sidebar.open` remove o deslocamento do menu, permitindo que o JavaScript o mostre quando o botão for clicado.
+
+## 13. Como investigar um estilo
+
+1. Abra a página no navegador.
+2. Clique com o botão direito em um elemento e escolha Inspecionar.
+3. Veja quais classes estão aplicadas.
+4. Pesquise essa classe em `style.css`.
+5. Altere temporariamente uma propriedade e observe o resultado.
+6. Desfaça a alteração ou salve a mudança desejada.
+
+## 14. Exercícios
+
+1. Localize a variável que define a cor de fundo geral.
+2. Mude temporariamente a largura da sidebar e observe o espaço da área principal.
+3. Altere o número de colunas de `.summary-grid`.
+4. Explique a diferença entre Flexbox e Grid usando exemplos deste projeto.
+5. Explique o que acontece dentro de `@media (max-width: 767px)`.
