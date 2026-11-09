@@ -152,3 +152,38 @@ O bloco abaixo reproduz o conteúdo completo do arquivo que está no repositóri
 4. Para cada tag, classe, ID, propriedade ou função que encontrar, tente explicar em voz alta para que serve.
 5. Faça uma pequena alteração de teste, veja o resultado no navegador e depois decida se deseja mantê-la.
 
+## Explicação detalhada de cada bloco do HTML
+
+### Bloco 1 — início do documento e configurações (`<!DOCTYPE>`, `html` e `head`)
+`<!DOCTYPE html>` informa ao navegador que o documento segue o padrão HTML5. A tag `html` envolve toda a página e o atributo `lang="pt-br"` declara que o conteúdo está em português brasileiro. Dentro de `head` ficam configurações que não aparecem como conteúdo principal: `charset="UTF-8"` permite exibir corretamente acentos; `viewport` faz o layout respeitar a largura do celular; `title` define o texto da aba do navegador.
+
+### Bloco 2 — importação de estilos e bibliotecas
+Os links para Bootstrap e Bootstrap Icons carregam recursos prontos pela internet (CDN). Bootstrap oferece classes para organizar colunas, botões, formulários e modais. Bootstrap Icons fornece os ícones usados na interface. O link para `css/style.css` carrega as regras próprias do projeto. Manter o CSS próprio depois do Bootstrap permite sobrescrever estilos da biblioteca quando necessário.
+
+### Bloco 3 — estrutura geral da aplicação
+O `body` contém o que o visitante vê. O contêiner principal organiza duas áreas: a navegação lateral e a área de conteúdo. Classes como `app-shell`, `sidebar` e `main-area` não têm comportamento especial no HTML: elas são nomes que o CSS utiliza para aplicar layout, cores e espaçamentos.
+
+### Bloco 4 — menu lateral (`aside` e `nav`)
+`aside` representa uma área complementar, aqui usada como menu. A marca leva à página inicial. Dentro de `nav`, cada `a` é um link para outro arquivo HTML: os caminhos apontam para Gastos, Entradas, Investimentos e Guardado. A classe `active` destaca o item atual visualmente. `aria-current="page"` informa às tecnologias assistivas que esse é o link da página aberta. Os atributos `id` identificam elementos que o JavaScript precisa localizar, como o menu e o controle de limpar os dados.
+
+### Bloco 5 — área principal e cabeçalho
+`main` identifica o conteúdo principal. O cabeçalho superior agrupa o botão de menu para dispositivos menores, a identificação do sistema, o título da página e a data. O botão tem um ID para que o JavaScript escute o clique. O elemento da data começa com conteúdo vazio porque o script coloca nele a data atual.
+
+### Bloco 6 — cartões de indicadores financeiros
+A grade de resumo agrupa cartões independentes. Cada cartão apresenta um rótulo, um ícone e um valor. Os IDs dos valores, por exemplo `balanceTotal`, `incomeTotal` e `expenseTotal`, são pontos de conexão com o JavaScript. O HTML cria o espaço onde o valor será mostrado; o JavaScript calcula o total e altera o texto do elemento. Os cartões não fazem cálculos por conta própria.
+
+### Bloco 7 — painéis e gráficos
+Os painéis organizam o título, uma pequena explicação e o espaço do gráfico. A tag `canvas` cria uma área de desenho. O Chart.js utiliza esse canvas para desenhar os gráficos; por isso os IDs precisam coincidir com os procurados no JavaScript. Se mudar um ID no HTML, também será necessário mudar a referência correspondente no script.
+
+### Bloco 8 — transações recentes
+O contêiner de transações começa vazio. Isso é intencional: a função JavaScript responsável consulta as despesas e entradas, organiza os registros por data e cria os elementos que serão exibidos. O HTML fornece apenas o local onde esses elementos serão inseridos.
+
+### Bloco 9 — modais e formulários
+Cada modal é uma janela de cadastro. As classes do Bootstrap controlam aparência, sobreposição e animação. O ID do modal é referenciado pelo botão que o abre. Dentro dele, o formulário agrupa campos relacionados. Cada `label` usa `for` para apontar ao `id` do campo correspondente. `required` exige preenchimento; `type="number"` define entrada numérica; `min` e `step` limitam os valores; `type="date"` oferece seletor de data; `select` apresenta opções. O JavaScript escuta o envio do formulário, lê os valores e registra os dados.
+
+### Bloco 10 — carregamento dos scripts
+Os scripts ficam no fim do `body` para que os elementos HTML já tenham sido interpretados quando o JavaScript executar. jQuery é carregado antes do Bootstrap 4 porque essa versão depende dele. Popper auxilia no posicionamento de componentes; Bootstrap JS habilita interações como modais; Chart.js desenha os gráficos; por último vem o script do projeto, que utiliza essas bibliotecas.
+
+### Como acompanhar o código completo abaixo
+Leia o HTML de cima para baixo e localize os blocos nesta mesma ordem. Sempre que encontrar um `id`, procure esse nome no arquivo JavaScript: normalmente é ali que o elemento é atualizado ou recebe um evento. Classes são usadas principalmente pelo CSS, enquanto tags descrevem a função semântica de cada parte da página.
+
