@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Finanças</title>
+
+    <!-- Bootstrap 4.6: fornece grid, botões, formulários, modal e utilitários responsivos. -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons: ícones usados na sidebar e nos cartões. -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Nosso CSS fica depois do Bootstrap para personalizar o visual. -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <!-- Sidebar: navegação principal do sistema. -->
+        <aside class="sidebar" id="sidebar">
+            <a class="brand" href="#" data-page="dashboard">
+                <span class="brand-mark"><i class="bi bi-wallet2"></i></span>
+                <span>Minhas<span class="brand-light">Finanças</span></span>
+            </a>
+
+            <nav class="side-nav" aria-label="Menu principal">
+                <a href="#dashboard" class="nav-link active" data-page="dashboard"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+                <a href="#gastos" class="nav-link" data-page="gastos"><i class="bi bi-cart3"></i> Gastos</a>
+                <a href="#entradas" class="nav-link" data-page="entradas"><i class="bi bi-arrow-down-circle"></i> Entradas</a>
+                <a href="#investimentos" class="nav-link" data-page="investimentos"><i class="bi bi-graph-up-arrow"></i> Investimentos</a>
+                <a href="#guardado" class="nav-link" data-page="guardado"><i class="bi bi-piggy-bank"></i> Guardado</a>
+            </nav>
+
+            <a href="#" class="nav-link side-logout" id="clearData"><i class="bi bi-box-arrow-left"></i> Limpar dados locais</a>
+        </aside>
+
+        <!-- Área principal: o cabeçalho e as telas são exibidos aqui. -->
+        <main class="main-area">
+            <header class="topbar">
+                <button class="mobile-menu" id="menuToggle" aria-label="Abrir menu"><i class="bi bi-list"></i></button>
+                <div>
+                    <p class="topbar-eyebrow">CONTROLE FINANCEIRO PESSOAL</p>
+                    <h1 id="pageHeading">Dashboard</h1>
+                </div>
+                <div class="topbar-date"><i class="bi bi-calendar3"></i> <span id="todayLabel"></span></div>
+            </header>
+
+            <!-- DASHBOARD -->
+            <section class="page-section active" id="page-dashboard">
+                <div class="summary-grid">
+                    <article class="summary-card income-card"><div class="summary-top"><span>Saldo geral</span><i class="bi bi-wallet2"></i></div><strong id="balanceTotal">R$ 0,00</strong><small>Entradas menos gastos</small></article>
+                    <article class="summary-card"><div class="summary-top"><span>Entradas</span><i class="bi bi-arrow-down-circle text-green"></i></div><strong id="incomeTotal">R$ 0,00</strong><small>Total recebido</small></article>
+                    <article class="summary-card"><div class="summary-top"><span>Gastos</span><i class="bi bi-arrow-up-circle text-red"></i></div><strong id="expenseTotal">R$ 0,00</strong><small>Total utilizado</small></article>
+                    <article class="summary-card"><div class="summary-top"><span>Investido</span><i class="bi bi-graph-up-arrow text-blue"></i></div><strong id="investedTotal">R$ 0,00</strong><small>Valor aplicado</small></article>
+                    <article class="summary-card"><div class="summary-top"><span>Guardado</span><i class="bi bi-piggy-bank text-purple"></i></div><strong id="savedTotal">R$ 0,00</strong><small>Nas suas metas</small></article>
+                </div>
+
+                <div class="dashboard-grid">
+                    <article class="panel chart-panel">
+                        <div class="panel-heading"><div><h2>Entradas e gastos</h2><p>Comparativo mensal</p></div><span class="panel-icon"><i class="bi bi-bar-chart"></i></span></div>
+                        <div class="chart-wrap"><canvas id="monthlyChart" aria-label="Gráfico de entradas e gastos"></canvas></div>
+                    </article>
+                    <article class="panel chart-panel">
+                        <div class="panel-heading"><div><h2>Gastos por categoria</h2><p>Distribuição das despesas</p></div><span class="panel-icon"><i class="bi bi-pie-chart"></i></span></div>
+                        <div class="chart-wrap"><canvas id="categoryChart" aria-label="Gráfico de gastos por categoria"></canvas></div>
+                    </article>
+                </div>
+
+                <article class="panel">
+                    <div class="panel-heading"><div><h2>Transações recentes</h2><p>Últimos lançamentos registrados</p></div><button class="btn btn-sm btn-outline-light" data-page="gastos">Ver gastos</button></div>
+                    <div class="transaction-list" id="recentTransactions"></div>
+                </article>
+            </section>
+
+            <!-- GASTOS -->
+            <section class="page-section" id="page-gastos">
+                <div class="section-toolbar"><div><h2>Gastos</h2><p id="expenseSubtitle">Total: R$ 0,00</p></div><button class="btn btn-danger" data-toggle="modal" data-target="#expenseModal"><i class="bi bi-plus-lg"></i> Nova Despesa</button></div>
+                <div class="panel"><div class="filter-row"><input type="search" class="form-control" id="expenseSearch" placeholder="Buscar despesa..."><select class="form-control" id="expenseCategoryFilter"><option value="">Todas as categorias</option><option>Alimentação</option><option>Transporte</option><option>Moradia</option><option>Saúde</option><option>Lazer</option><option>Outros</option></select></div><div id="expenseList" class="record-list"></div></div>
+            </section>
+
+            <!-- ENTRADAS -->
+            <section class="page-section" id="page-entradas">
+                <div class="section-toolbar"><div><h2>Entradas</h2><p id="incomeSubtitle">Total: R$ 0,00</p></div><button class="btn btn-success" data-toggle="modal" data-target="#incomeModal"><i class="bi bi-plus-lg"></i> Nova Entrada</button></div>
+                <div class="panel"><div class="filter-row"><input type="search" class="form-control" id="incomeSearch" placeholder="Buscar entrada..."></div><div id="incomeList" class="record-list"></div></div>
+            </section>
+
+            <!-- INVESTIMENTOS -->
+            <section class="page-section" id="page-investimentos">
+                <div class="section-toolbar"><div><h2>Investimentos</h2><p id="investmentSubtitle">Valor aplicado: R$ 0,00</p></div><button class="btn btn-primary" data-toggle="modal" data-target="#investmentModal"><i class="bi bi-plus-lg"></i> Novo Investimento</button></div>
+                <div class="investment-grid" id="investmentList"></div>
+            </section>
+
+            <!-- METAS / DINHEIRO GUARDADO -->
+            <section class="page-section" id="page-guardado">
+                <div class="section-toolbar"><div><h2>Dinheiro Guardado</h2><p id="goalSubtitle">Total guardado: R$ 0,00</p></div><button class="btn btn-purple" data-toggle="modal" data-target="#goalModal"><i class="bi bi-plus-lg"></i> Nova Meta</button></div>
+                <div class="goal-grid" id="goalList"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal de despesa: Bootstrap abre e fecha esta janela. -->
+    <div class="modal fade" id="expenseModal" tabindex="-1" role="dialog" aria-labelledby="expenseModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content app-modal">
+            <div class="modal-header"><h5 class="modal-title" id="expenseModalTitle">Nova Despesa</h5><button type="button" class="close text-light" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button></div>
+            <form id="expenseForm"><div class="modal-body">
+                <div class="form-group"><label for="expenseName">Nome</label><input class="form-control" id="expenseName" required placeholder="Ex.: Conta de água"></div>
+                <div class="form-row"><div class="form-group col-6"><label for="expenseValue">Valor (R$)</label><input class="form-control" type="number" min="0.01" step="0.01" id="expenseValue" required></div><div class="form-group col-6"><label for="expenseDate">Data</label><input class="form-control" type="date" id="expenseDate" required></div></div>
+                <div class="form-row"><div class="form-group col-6"><label for="expenseCategory">Categoria</label><select class="form-control" id="expenseCategory" required><option value="">Selecione</option><option>Alimentação</option><option>Transporte</option><option>Moradia</option><option>Saúde</option><option>Lazer</option><option>Outros</option></select></div><div class="form-group col-6"><label for="expensePayment">Pagamento</label><select class="form-control" id="expensePayment"><option>PIX</option><option>Cartão de Crédito</option><option>Cartão de Débito</option><option>Dinheiro</option><option>Transferência</option></select></div></div>
+                <div class="form-group"><label for="expenseDescription">Descrição (opcional)</label><input class="form-control" id="expenseDescription" placeholder="Observações"></div>
+            </div><div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button><button class="btn btn-danger" type="submit">Salvar</button></div></form>
+        </div></div>
+    </div>
+
+    <!-- Modal de entrada -->
+    <div class="modal fade" id="incomeModal" tabindex="-1" role="dialog" aria-labelledby="incomeModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content app-modal">
+            <div class="modal-header"><h5 class="modal-title" id="incomeModalTitle">Nova Entrada</h5><button type="button" class="close text-light" data-dismiss="modal">&times;</button></div>
+            <form id="incomeForm"><div class="modal-body">
+                <div class="form-group"><label for="incomeName">Descrição</label><input class="form-control" id="incomeName" required placeholder="Ex.: Salário mensal"></div>
+                <div class="form-row"><div class="form-group col-6"><label for="incomeValue">Valor (R$)</label><input class="form-control" type="number" min="0.01" step="0.01" id="incomeValue" required></div><div class="form-group col-6"><label for="incomeDate">Data</label><input class="form-control" type="date" id="incomeDate" required></div></div>
+                <div class="form-group"><label for="incomePayment">Método de recebimento</label><select class="form-control" id="incomePayment"><option>PIX</option><option>Transferência</option><option>Dinheiro</option><option>Depósito</option></select></div>
+            </div><div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button><button class="btn btn-success" type="submit">Salvar</button></div></form>
+        </div></div>
+    </div>
+
+    <!-- Modal de investimento -->
+    <div class="modal fade" id="investmentModal" tabindex="-1" role="dialog" aria-labelledby="investmentModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content app-modal">
+            <div class="modal-header"><h5 class="modal-title" id="investmentModalTitle">Novo Investimento</h5><button type="button" class="close text-light" data-dismiss="modal">&times;</button></div>
+            <form id="investmentForm"><div class="modal-body">
+                <div class="form-group"><label for="investmentName">Nome</label><input class="form-control" id="investmentName" required placeholder="Ex.: Tesouro Selic"></div>
+                <div class="form-group"><label for="investmentType">Tipo</label><select class="form-control" id="investmentType"><option>Ações</option><option>Renda fixa</option><option>Criptomoedas</option><option>Fundos</option><option>Outros</option></select></div>
+                <div class="form-row"><div class="form-group col-6"><label for="investmentApplied">Valor investido (R$)</label><input class="form-control" type="number" min="0" step="0.01" id="investmentApplied" required></div><div class="form-group col-6"><label for="investmentCurrent">Valor atual (R$)</label><input class="form-control" type="number" min="0" step="0.01" id="investmentCurrent" required></div></div>
+                <div class="form-group"><label for="investmentDate">Data</label><input class="form-control" type="date" id="investmentDate" required></div>
+            </div><div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button><button class="btn btn-primary" type="submit">Salvar</button></div></form>
+        </div></div>
+    </div>
+
+    <!-- Modal de meta -->
+    <div class="modal fade" id="goalModal" tabindex="-1" role="dialog" aria-labelledby="goalModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content app-modal">
+            <div class="modal-header"><h5 class="modal-title" id="goalModalTitle">Nova Meta</h5><button type="button" class="close text-light" data-dismiss="modal">&times;</button></div>
+            <form id="goalForm"><div class="modal-body">
+                <div class="form-group"><label for="goalName">Nome da meta</label><input class="form-control" id="goalName" required placeholder="Ex.: Viagem para Europa"></div>
+                <div class="form-row"><div class="form-group col-6"><label for="goalTarget">Valor alvo (R$)</label><input class="form-control" type="number" min="0.01" step="0.01" id="goalTarget" required></div><div class="form-group col-6"><label for="goalSaved">Guardado (R$)</label><input class="form-control" type="number" min="0" step="0.01" id="goalSaved" value="0" required></div></div>
+                <div class="form-group"><label for="goalDeadline">Data limite (opcional)</label><input class="form-control" type="date" id="goalDeadline"></div>
+            </div><div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button><button class="btn btn-purple" type="submit">Salvar</button></div></form>
+        </div></div>
+    </div>
+
+    <!-- jQuery e Popper são dependências do Bootstrap 4.6; nosso JS é carregado por último. -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
