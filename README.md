@@ -1,50 +1,25 @@
-# Minhas Finanças
+# Minhas Finanças — projeto de estudos
 
-Projeto de estudos para aprender desenvolvimento web construindo uma aplicação de controle financeiro inspirada nas referências visuais do projeto.
-
-## Objetivo
-
-Desenvolver a interface completa do sistema antes de iniciar o back-end:
-- Painel inicial com resumo financeiro;
-- Sidebar e navegação entre as telas;
-- Cadastro e listagem de gastos e entradas;
-- Investimentos e metas financeiras;
-- Tabelas, formulários, filtros, gráficos e demais componentes previstos nas referências;
-- Layout responsivo para computador, tablet e celular.
-
-## Tecnologias
-
-### Primeira fase — Front-end
-- HTML5
-- CSS3
-- Bootstrap 4.6.2
-- JavaScript
-
-### Segunda fase — Back-end
-- PHP
-- MySQL
-- XAMPP (Apache e MySQL)
+Este repositório contém o projeto prático de finanças pessoais. **A pasta `projeto/` contém o site executável** e o arquivo [GUIA-PROJETO-MINHAS-FINANCAS.md](GUIA-PROJETO-MINHAS-FINANCAS.md) explica a construção passo a passo.
 
 ## Ordem de desenvolvimento
 
-**A prioridade é concluir todo o front-end antes de instalar ou configurar o XAMPP.**
+1. HTML: estrutura das telas e formulários.
+2. CSS: identidade visual escura baseada nas imagens de referência.
+3. Bootstrap 4.6.2: grid, formulários, botões e modais.
+4. JavaScript: navegação, cadastros demonstrativos, filtros, gráficos e armazenamento no navegador.
+5. Revisão do front-end em desktop e celular.
+6. Só depois: XAMPP, PHP e MySQL.
 
-1. Construir a estrutura de todas as páginas com HTML.
-2. Aplicar o visual completo com CSS.
-3. Ajustar componentes e responsividade com Bootstrap 4.6.2.
-4. Implementar interações com JavaScript.
-5. Revisar todas as telas e testar o front-end no navegador.
-6. Somente depois instalar/configurar o XAMPP.
-7. Desenvolver a lógica com PHP e conectar o sistema ao MySQL.
+## Executar o front-end
 
-## Como executar durante a primeira fase
+Abra `projeto/index.html` no navegador ou use a extensão Live Server do VS Code. **Não precisa de XAMPP nesta primeira fase.**
 
-Não é necessário XAMPP nesta etapa. Abra a pasta do projeto no Visual Studio Code e execute os arquivos HTML no navegador (por exemplo, usando a extensão Live Server).
+## Pastas
 
-Quando o front-end estiver concluído, configuraremos o XAMPP para executar o PHP e conectar ao banco de dados.
+- `projeto/index.html`: estrutura HTML completa.
+- `projeto/css/style.css`: estilos e responsividade.
+- `projeto/js/script.js`: interações de demonstração.
+- `GUIA-PROJETO-MINHAS-FINANCAS.md`: explicações e roteiro completo.
 
-## Apostila passo a passo
-
-As aulas estão organizadas na pasta [aulas](aulas/README.md). Siga a sequência indicada, começando pela [Aula 00 — Como estudar pelo repositório](aulas/00-como-estudar.md).
-
-> O projeto será desenvolvido por partes, com explicações e exercícios. Primeiro aprenderemos e construiremos todo o front-end; PHP e banco de dados ficam para a etapa seguinte.
+> Os dados atuais são demonstrativos e ficam no localStorage do navegador. PHP e MySQL serão implementados apenas depois da conclusão do front-end.
