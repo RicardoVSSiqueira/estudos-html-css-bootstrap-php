@@ -130,3 +130,35 @@ O bloco abaixo reproduz o conteúdo completo do arquivo que está no repositóri
 4. Para cada tag, classe, ID, propriedade ou função que encontrar, tente explicar em voz alta para que serve.
 5. Faça uma pequena alteração de teste, veja o resultado no navegador e depois decida se deseja mantê-la.
 
+## Explicação detalhada de cada bloco do HTML
+
+### Bloco 1 — estrutura inicial
+`<!DOCTYPE html>` declara HTML5. O idioma em `lang` orienta navegadores e leitores de tela. UTF-8 habilita acentos. Viewport permite o ajuste para telas pequenas. O título identifica a página Entradas na aba do navegador.
+
+### Bloco 2 — dependências visuais
+Bootstrap fornece componentes e classes de layout. Bootstrap Icons disponibiliza os ícones. O arquivo `../css/style.css` contém as personalizações do projeto. O caminho começa com `../` porque o HTML está dentro da pasta `paginas`.
+
+### Bloco 3 — navegação lateral
+A sidebar mantém os mesmos links das demais telas, para que o usuário possa navegar pelo sistema. O link Entradas recebe `active`, que é uma classe visual, e `aria-current="page"`, que indica a página atual semanticamente. Os caminhos com `../` retornam à pasta principal do projeto antes de acessar o Dashboard.
+
+### Bloco 4 — cabeçalho e identificação da tela
+O cabeçalho reúne o botão de menu, a identificação do sistema, o título e a data. O botão é usado no layout mobile. O elemento da data é preenchido pelo JavaScript com a data do dia.
+
+### Bloco 5 — barra de ações e total
+A barra organiza o título da seção e o botão Nova Entrada. O texto de resumo recebe seu valor dinamicamente. O botão aponta para `#incomeModal`; o Bootstrap usa esse seletor para localizar e abrir a janela de cadastro.
+
+### Bloco 6 — campo de pesquisa
+`incomeSearch` permite pesquisar pelo nome ou descrição da entrada. O campo fornece o texto digitado, mas a filtragem é realizada pelo JavaScript. O evento `input` é disparado durante a digitação, permitindo atualizar a lista imediatamente.
+
+### Bloco 7 — lista de entradas
+`incomeList` é o espaço em que os registros são inseridos. A função de renderização percorre os dados, cria as linhas e coloca o resultado dentro desse contêiner. Se não houver entradas, o script pode exibir uma mensagem de lista vazia.
+
+### Bloco 8 — janela e formulário
+`incomeModal` identifica a janela; `incomeForm` identifica o formulário. Os campos guardam descrição, valor, data e forma de recebimento. Labels associados por `for` melhoram acessibilidade e permitem clicar no rótulo para focar o campo. `required` exige os dados essenciais; `type="number"`, `min` e `step` restringem o valor; `type="date"` oferece seleção de data. O JavaScript lê os valores pelo ID de cada campo quando o formulário é enviado.
+
+### Bloco 9 — carregamento das bibliotecas
+A ordem é importante: jQuery vem antes do Bootstrap 4; Popper dá suporte a componentes posicionados; Bootstrap JS implementa o modal; Chart.js é utilizado no Dashboard; e `../js/script.js` executa a lógica do sistema depois que o HTML e as bibliotecas estão disponíveis.
+
+### Ligação com o JavaScript
+O formulário não grava diretamente no banco de dados. Nesta etapa front-end, o script cria um objeto JavaScript com os valores informados, adiciona esse objeto ao array de entradas, salva os dados no `localStorage` do navegador e redesenha a lista.
+
