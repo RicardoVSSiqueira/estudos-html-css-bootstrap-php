@@ -130,3 +130,35 @@ O bloco abaixo reproduz o conteúdo completo do arquivo que está no repositóri
 4. Para cada tag, classe, ID, propriedade ou função que encontrar, tente explicar em voz alta para que serve.
 5. Faça uma pequena alteração de teste, veja o resultado no navegador e depois decida se deseja mantê-la.
 
+## Explicação detalhada de cada bloco do HTML
+
+### Bloco 1 — configurações do documento
+`DOCTYPE` ativa o padrão HTML5. `lang="pt-br"` define o idioma. UTF-8 permite acentos e caracteres especiais. A configuração viewport faz o navegador adaptar a página à largura do dispositivo. O título identifica a tela Gastos na aba.
+
+### Bloco 2 — bibliotecas e caminho do CSS
+Bootstrap fornece classes prontas de layout, botões, campos e modais. Bootstrap Icons fornece os ícones. O CSS próprio é carregado por `../css/style.css`. O trecho `../` significa voltar uma pasta: como este arquivo está em `projeto/paginas`, primeiro voltamos para `projeto` e depois entramos em `css`.
+
+### Bloco 3 — menu lateral
+O `aside` contém a navegação que se repete nas páginas. Os links usam caminhos relativos: `../index.html` volta ao Dashboard e os demais links apontam para arquivos que estão na mesma pasta `paginas`. A classe `active` indica visualmente que Gastos é a tela atual. `aria-current="page"` oferece essa informação a leitores de tela. IDs como `sidebar` e `menuToggle` permitem ao JavaScript localizar o menu e o botão que o abre no celular.
+
+### Bloco 4 — cabeçalho superior
+A área `main` envolve o conteúdo principal. O cabeçalho apresenta o botão mobile, a identificação do sistema, o título Gastos e o espaço da data. O JavaScript preenche o elemento da data. O botão não muda de página: ele apenas abre ou fecha o menu lateral em telas menores.
+
+### Bloco 5 — título da seção e botão Nova Despesa
+A barra de ferramentas agrupa o nome da seção, um texto auxiliar e o botão de cadastro. O texto auxiliar é atualizado com a quantidade ou soma de despesas, conforme a lógica do script. Os atributos `data-toggle="modal"` e `data-target="#expenseModal"` são lidos pelo Bootstrap: ao clicar, ele abre o modal cujo ID corresponde ao valor de `data-target`.
+
+### Bloco 6 — pesquisa e filtro por categoria
+O input `expenseSearch` recebe o texto digitado. O select `expenseCategoryFilter` permite escolher uma categoria. Esses campos não filtram sozinhos: o JavaScript adiciona ouvintes aos eventos de digitação e alteração, lê seus valores e seleciona quais registros devem aparecer.
+
+### Bloco 7 — área de resultados
+`expenseList` é o contêiner no qual o JavaScript monta as despesas. Ele pode estar vazio no HTML porque os registros são inseridos dinamicamente. Cada linha exibida é construída a partir dos dados salvos no navegador.
+
+### Bloco 8 — modal e formulário de despesa
+O modal tem o ID `expenseModal`; o formulário tem o ID `expenseForm`. Os campos coletam descrição, valor, data, categoria, forma de pagamento e observações. O atributo `for` do label deve corresponder exatamente ao ID do campo. `required` torna o preenchimento obrigatório; `min` define o menor número aceito; `step` define os intervalos permitidos, como centavos; `type="date"` cria o seletor de data. Ao salvar, o script impede o envio tradicional e trata os dados no próprio navegador.
+
+### Bloco 9 — scripts no final da página
+jQuery, Popper e Bootstrap JS são carregados para que os modais funcionem. Chart.js é compartilhado com o Dashboard. O caminho `../js/script.js` sobe de `paginas` para `projeto` e entra na pasta `js`. O script comum verifica quais elementos existem antes de utilizá-los, permitindo que o mesmo arquivo seja carregado nas cinco páginas.
+
+### Relação entre os arquivos
+O HTML define os campos e contêineres; o CSS define a aparência; o JavaScript lê os campos, salva e exibe os registros. Se um ID for alterado apenas no HTML, a função JavaScript que procura o ID antigo deixará de encontrar o elemento.
+
