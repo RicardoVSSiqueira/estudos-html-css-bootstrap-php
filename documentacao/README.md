@@ -1,25 +1,40 @@
 # Documentação do projeto Minhas Finanças
 
-Esta pasta contém a documentação técnica e didática do projeto. Leia os arquivos na ordem abaixo para acompanhar a construção e entender como cada tecnologia participa do sistema.
+A documentação está dividida em duas partes: explicação das tecnologias e arquivos com **o código-fonte integral** de cada arquivo do projeto.
 
-## Ordem recomendada de estudo
+## 1. Entenda o projeto
 
-1. [00 — Visão geral do projeto](00-VISAO-GERAL-DO-PROJETO.md) — objetivo, estrutura de pastas, tecnologias, páginas e fluxo de funcionamento.
-2. [01 — HTML passo a passo](01-HTML-PASSO-A-PASSO.md) — estrutura dos cinco arquivos HTML, tags, atributos, links, formulários e modais.
-3. [02 — CSS passo a passo](02-CSS-PASSO-A-PASSO.md) — variáveis, seletores, cores, Flexbox, Grid, cartões e responsividade.
-4. [03 — Bootstrap passo a passo](03-BOOTSTRAP-PASSO-A-PASSO.md) — classes utilizadas, formulários, botões, modais e dependências do Bootstrap 4.6.
-5. [04 — JavaScript passo a passo](04-JAVASCRIPT-PASSO-A-PASSO.md) — dados, funções, localStorage, cálculos, eventos, formulários, listas e gráficos.
+1. [00 — Visão geral](00-VISAO-GERAL-DO-PROJETO.md)
+2. [01 — HTML passo a passo](01-HTML-PASSO-A-PASSO.md)
+3. [02 — CSS passo a passo](02-CSS-PASSO-A-PASSO.md)
+4. [03 — Bootstrap passo a passo](03-BOOTSTRAP-PASSO-A-PASSO.md)
+5. [04 — JavaScript passo a passo](04-JAVASCRIPT-PASSO-A-PASSO.md)
 
-## Como estudar
+## 2. Código completo de cada arquivo
 
-- Abra o arquivo indicado no VS Code.
-- Mantenha o projeto aberto ao lado da documentação.
-- Procure no código cada trecho explicado.
-- Faça os exercícios no final de cada documento.
-- Teste suas alterações no navegador.
+Os documentos abaixo incluem o conteúdo integral dos arquivos correspondentes em `projeto/`, sem substituir o código por reticências.
 
-## Escopo documentado
+### HTML
 
-A documentação descreve a implementação atual encontrada em `projeto/`: HTML, CSS, Bootstrap, Bootstrap Icons, JavaScript, Chart.js e armazenamento local com `localStorage`.
+- [Dashboard — projeto/index.html](CODIGO-COMPLETO-INDEX.md)
+- [Gastos — projeto/paginas/gastos.html](CODIGO-COMPLETO-GASTOS.md)
+- [Entradas — projeto/paginas/entradas.html](CODIGO-COMPLETO-ENTRADAS.md)
+- [Investimentos — projeto/paginas/investimentos.html](CODIGO-COMPLETO-INVESTIMENTOS.md)
+- [Dinheiro guardado — projeto/paginas/guardado.html](CODIGO-COMPLETO-GUARDADO.md)
 
-**Não descreve PHP, MySQL, autenticação ou API como funcionalidades implementadas**, pois essa integração ainda não faz parte da versão atual do projeto.
+### CSS e JavaScript
+
+- [CSS completo — projeto/css/style.css](CODIGO-COMPLETO-STYLE.md)
+- [JavaScript completo — projeto/js/script.js](CODIGO-COMPLETO-SCRIPT.md)
+
+## 3. Como estudar
+
+1. Abra o documento de código completo.
+2. Abra o arquivo original correspondente no VS Code.
+3. Compare os dois e acompanhe a explicação passo a passo.
+4. Faça os exercícios dos documentos de tecnologia.
+5. Teste alterações no navegador.
+
+## Escopo atual
+
+O conteúdo documenta o front-end existente: HTML, CSS, Bootstrap 4.6, Bootstrap Icons, JavaScript, Chart.js e armazenamento no `localStorage`. PHP, MySQL, autenticação e API ainda não estão implementados nesta fase.
