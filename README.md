@@ -1,44 +1,50 @@
 # Minhas Finanças
 
-Projeto de estudos para aprender **HTML, CSS, Bootstrap 4.6 e PHP**, construindo uma aplicação de controle financeiro inspirada nas oito referências visuais enviadas.
+Projeto de estudos para aprender desenvolvimento web construindo uma aplicação de controle financeiro inspirada nas referências visuais do projeto.
 
 ## Objetivo
 
-Criar uma interface de finanças pessoais com:
+Desenvolver a interface completa do sistema antes de iniciar o back-end:
 - Painel inicial com resumo financeiro;
-- Cadastro e listagem de gastos;
-- Controle de entradas;
-- Investimentos;
-- Metas financeiras.
+- Sidebar e navegação entre as telas;
+- Cadastro e listagem de gastos e entradas;
+- Investimentos e metas financeiras;
+- Tabelas, formulários, filtros, gráficos e demais componentes previstos nas referências;
+- Layout responsivo para computador, tablet e celular.
 
 ## Tecnologias
 
+### Primeira fase — Front-end
 - HTML5
 - CSS3
 - Bootstrap 4.6.2
 - JavaScript
-- PHP (nas próximas etapas)
-- MySQL (quando iniciarmos a persistência dos dados)
 
-## Como executar
+### Segunda fase — Back-end
+- PHP
+- MySQL
+- XAMPP (Apache e MySQL)
 
-1. Baixe ou clone este repositório.
-2. Coloque a pasta dentro de `htdocs` do XAMPP.
-3. Inicie o Apache no XAMPP.
-4. Acesse `http://localhost/estudos-html-css-bootstrap-php/`.
+## Ordem de desenvolvimento
 
-## Etapas de aprendizagem
+**A prioridade é concluir todo o front-end antes de instalar ou configurar o XAMPP.**
 
-1. Estrutura HTML e organização de pastas.
-2. Estilização com CSS e layout responsivo.
-3. Componentes do Bootstrap.
-4. Interações com JavaScript.
-5. Formulários e processamento com PHP.
-6. Banco de dados MySQL e operações CRUD.
+1. Construir a estrutura de todas as páginas com HTML.
+2. Aplicar o visual completo com CSS.
+3. Ajustar componentes e responsividade com Bootstrap 4.6.2.
+4. Implementar interações com JavaScript.
+5. Revisar todas as telas e testar o front-end no navegador.
+6. Somente depois instalar/configurar o XAMPP.
+7. Desenvolver a lógica com PHP e conectar o sistema ao MySQL.
 
-> O projeto será desenvolvido gradualmente. Cada etapa terá explicações para que o código possa ser estudado e apresentado.
+## Como executar durante a primeira fase
 
+Não é necessário XAMPP nesta etapa. Abra a pasta do projeto no Visual Studio Code e execute os arquivos HTML no navegador (por exemplo, usando a extensão Live Server).
+
+Quando o front-end estiver concluído, configuraremos o XAMPP para executar o PHP e conectar ao banco de dados.
 
 ## Apostila passo a passo
 
-As aulas estão organizadas na pasta [aulas](aulas/README.md). Comece pela [Aula 00 — Como estudar pelo repositório](aulas/00-como-estudar.md) e siga a sequência indicada.
+As aulas estão organizadas na pasta [aulas](aulas/README.md). Siga a sequência indicada, começando pela [Aula 00 — Como estudar pelo repositório](aulas/00-como-estudar.md).
+
+> O projeto será desenvolvido por partes, com explicações e exercícios. Primeiro aprenderemos e construiremos todo o front-end; PHP e banco de dados ficam para a etapa seguinte.
