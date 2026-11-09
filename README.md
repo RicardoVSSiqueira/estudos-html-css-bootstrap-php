@@ -37,3 +37,8 @@ Criar uma interface de finanças pessoais com:
 6. Banco de dados MySQL e operações CRUD.
 
 > O projeto será desenvolvido gradualmente. Cada etapa terá explicações para que o código possa ser estudado e apresentado.
+
+
+## Apostila passo a passo
+
+As aulas estão organizadas na pasta [aulas](aulas/README.md). Comece pela [Aula 00 — Como estudar pelo repositório](aulas/00-como-estudar.md) e siga a sequência indicada.
