@@ -130,3 +130,32 @@ O bloco abaixo reproduz o conteúdo completo do arquivo que está no repositóri
 4. Para cada tag, classe, ID, propriedade ou função que encontrar, tente explicar em voz alta para que serve.
 5. Faça uma pequena alteração de teste, veja o resultado no navegador e depois decida se deseja mantê-la.
 
+## Explicação detalhada de cada bloco do HTML
+
+### Bloco 1 — configurações iniciais
+DOCTYPE informa HTML5; lang define português brasileiro; charset UTF-8 permite caracteres acentuados; viewport adapta a largura da tela; title identifica Investimentos na aba do navegador.
+
+### Bloco 2 — CSS e bibliotecas
+Bootstrap fornece estilos e componentes reutilizáveis. Bootstrap Icons fornece os ícones. `../css/style.css` aplica o tema próprio do sistema. O prefixo `../` volta da pasta `paginas` para a pasta `projeto`.
+
+### Bloco 3 — menu de navegação
+A sidebar é repetida nas páginas para manter a navegação disponível. Cada link aponta para o arquivo correspondente. A classe `active` destaca Investimentos. `aria-current="page"` indica a página atual para tecnologias assistivas. O botão de menu tem um ID utilizado pelo script para abrir e fechar a sidebar em telas pequenas.
+
+### Bloco 4 — cabeçalho e ações
+O cabeçalho apresenta título, identificação e data. A barra de ações apresenta o botão Novo Investimento. O atributo `data-target="#investmentModal"` aponta para o modal de cadastro. O Bootstrap identifica o modal pelo ID e abre a janela quando o botão é clicado.
+
+### Bloco 5 — resumo do total investido
+O elemento `investmentSubtitle` é reservado para o total aplicado. O HTML apenas disponibiliza esse espaço. O JavaScript soma a propriedade de valor aplicado em todos os investimentos e atualiza o texto.
+
+### Bloco 6 — lista de investimentos
+`investmentList` recebe os cartões criados pelo script. Para cada registro, o JavaScript compara o valor atual com o valor aplicado. A diferença positiva representa valorização; a diferença negativa representa desvalorização. O percentual compara essa diferença com o valor originalmente aplicado.
+
+### Bloco 7 — modal e formulário
+O modal `investmentModal` contém o formulário `investmentForm`. Os campos permitem informar nome, tipo, valor aplicado, valor atual e data. Cada label aponta para o input por meio de `for` e `id`. Campos numéricos usam `type="number"`; `min` limita valores mínimos; `step="0.01"` permite centavos; `required` exige o preenchimento dos dados essenciais.
+
+### Bloco 8 — scripts e comportamento
+As bibliotecas externas são carregadas antes de `../js/script.js`. O script comum identifica os elementos presentes nesta página, conecta o formulário e atualiza os cartões. Como o projeto ainda está na fase front-end, os dados são guardados no navegador com localStorage, não em um banco de dados.
+
+### Exemplo de interpretação do resultado
+Se o valor aplicado for R$ 1.000 e o valor atual for R$ 1.100, a diferença será R$ 100 e o rendimento percentual será 10%. Se o valor atual for R$ 900, a diferença será -R$ 100 e o percentual será -10%.
+
