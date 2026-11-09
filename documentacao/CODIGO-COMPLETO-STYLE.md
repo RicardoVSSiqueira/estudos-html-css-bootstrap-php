@@ -151,3 +151,44 @@ select.form-control option { background: #1a2638; }
 4. Para cada tag, classe, ID, propriedade ou função que encontrar, tente explicar em voz alta para que serve.
 5. Faça uma pequena alteração de teste, veja o resultado no navegador e depois decida se deseja mantê-la.
 
+## Explicação detalhada das regras CSS por bloco
+
+### Bloco 1 — variáveis em `:root`
+`:root` seleciona o elemento raiz do documento. Declarações como `--bg`, `--panel` e `--text` são propriedades personalizadas (variáveis CSS). Elas guardam cores reutilizadas em vários seletores. `var(--bg)` lê o valor da variável. A vantagem é alterar uma cor em um único lugar e atualizar todos os componentes que a utilizam.
+
+### Bloco 2 — reset e estilos globais
+O seletor universal `*` aplica a regra a todos os elementos. `box-sizing: border-box` faz com que padding e borda sejam incluídos no cálculo de largura e altura, deixando o dimensionamento mais previsível. Regras de `body` definem fonte, cor, fundo e margens gerais. A remoção da margem padrão evita espaços inesperados ao redor da página.
+
+### Bloco 3 — estrutura principal
+`.app-shell` organiza o layout completo. `.sidebar` define largura, fundo e posicionamento da navegação lateral. `.main-area` ocupa o espaço restante. Propriedades como `display`, `width`, `min-height`, `margin` e `padding` controlam como as áreas ficam lado a lado e quanto espaço existe ao redor do conteúdo.
+
+### Bloco 4 — marca e navegação
+`.brand` organiza o ícone e o nome do sistema. `.brand-mark` estiliza a área visual do ícone. `.side-nav` organiza os links. `.nav-link` define alinhamento, espaçamento, cor e aparência. O seletor composto `.nav-link.active` só seleciona links que possuem as duas classes ao mesmo tempo, aplicando destaque ao item atual. Estados como hover mudam a aparência quando o ponteiro passa sobre um link.
+
+### Bloco 5 — cabeçalho e Flexbox
+`.topbar` utiliza `display: flex`. Flexbox facilita alinhar itens em uma linha. `align-items` alinha os elementos no eixo transversal; `justify-content` distribui o espaço no eixo principal; `gap` cria distância entre os itens. Regras descendentes estilizam título, textos auxiliares, data e botão do menu mobile.
+
+### Bloco 6 — grades do Dashboard
+`.summary-grid` e `.dashboard-grid` usam CSS Grid. `grid-template-columns` determina quantas colunas existem e como dividir o espaço. `repeat()` evita repetir manualmente a mesma definição. `minmax()` define limites mínimos e máximos flexíveis. `gap` controla a distância entre cartões e painéis.
+
+### Bloco 7 — cartões e painéis
+Seletores como `.summary-card` e `.panel` definem fundo, borda, raio dos cantos e espaçamento interno. `border-radius` arredonda cantos; `box-shadow` cria sombra; `padding` cria espaço entre a borda e o conteúdo. Seletores descendentes, como `.summary-card strong`, atingem elementos que estão dentro do cartão.
+
+### Bloco 8 — listas e transações
+As classes de lista organizam registros inseridos pelo JavaScript. Flexbox alinha descrição, data, valor e ações. Seletores de estado como `.positive` e `.negative` diferenciam visualmente valores positivos e negativos. Pseudo-classes como `:last-child` selecionam um item por sua posição, por exemplo o último registro, permitindo remover sua borda inferior.
+
+### Bloco 9 — botões, filtros e campos
+As classes próprias complementam as classes Bootstrap. `.form-control` estiliza campos e seletores. `:focus` representa o estado em que o campo está selecionado; `::placeholder` estiliza o texto de orientação. Classes de botão modificam cor, tamanho, borda e cursor sem alterar o comportamento HTML do botão.
+
+### Bloco 10 — investimentos e metas
+As grades dos cartões distribuem os itens em colunas responsivas. As classes de resultado positivo ou negativo destacam rendimento. A barra de progresso possui uma parte externa (trilho) e uma parte interna (preenchimento). O JavaScript calcula a porcentagem e altera a largura do preenchimento; o CSS define altura, cor e formato.
+
+### Bloco 11 — modais
+As regras que começam com `.app-modal` personalizam somente elementos que estão dentro de um modal com essa classe. Esse tipo de seletor evita afetar outros cabeçalhos ou botões fora da janela. O Bootstrap continua responsável por abrir, fechar e posicionar o modal.
+
+### Bloco 12 — responsividade com media queries
+Uma media query aplica regras somente quando a condição de tela é atendida. Em telas menores, a sidebar pode sair da área visível com transformação horizontal e reaparecer quando recebe a classe `open`. O conteúdo principal passa a ocupar a largura disponível; grades reduzem o número de colunas; filtros e botões podem ser empilhados. Assim, o mesmo HTML se adapta a computador, tablet e celular.
+
+### Como interpretar uma declaração
+Em `.summary-card strong { font-size: 19px; }`, `.summary-card strong` é o seletor; `font-size` é a propriedade; `19px` é o valor; e as chaves delimitam as declarações aplicadas. O ponto antes de `summary-card` indica uma classe. Dois pontos em `:hover` indicam uma pseudo-classe; dois pontos em `::placeholder` indicam um pseudo-elemento.
+
